@@ -1,0 +1,228 @@
+  /* CSS Section 0 - Theme */
+  :root {
+    --theme-background: #353535;
+    --theme-bg-acent: #2f2f2f; 
+    --theme-text-color: #ffffff;
+
+    --theme-textarea-background: #2f2f2f; 	/* #ffffff */
+    --theme-textarea-border: #3e8e41;		/* #00000000 */
+    --theme-textarea-text: #ffffff;		/* #2196F3 */
+
+    --theme-slider-on: #4CAF50; 			/* #2196F3 */
+    --theme-slider-off: #ccc; 				/* #ccc */
+    --theme-slider-acent: #ffffff; 		/* #ffffff */
+
+    --theme-tabs-background: #4CAF50;		/* #f1f1f1 */
+    --theme-tabs-hover: #006400; 			/* #ddd */
+    --theme-tabs-border: #3e8e41;			/* #ccc */
+    --theme-tabs-text: #ffffff;			/* #000000 */
+
+    --theme-button-background: #4CAF50;	/* #4CAF50 */
+    --theme-button-hover: #3e8e41;			/* #3e8e41 */
+    --theme-button-click: #006400; 		/* #006400 */
+    --theme-button-border: #008000;		/* #008000 */
+    --theme-button-text: white;			/* #ffffff */
+
+  }
+  /* CSS Section 1 - General */
+
+  body {
+    font-family: Helvetica, Sans-Serif;
+    background-color: var(--theme-background);
+    color: var(--theme-text-color);
+    margin: 15px;
+  }
+  button{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+  }
+  button:hover{
+    overflow: visible; 
+    white-space: normal;
+  }
+
+  /* CSS Section 2 - Top Banner */
+
+  .top_section{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows:100px;
+    grid-auto-flow: column;
+    margin-bottom: 15px;
+  }
+  .main_title{
+    grid-column: 1 / 2;
+    text-align: center;
+    margin: auto; 
+  }
+  #outputArea {
+    font-family: Helvetica, Sans-Serif;
+    background-color: var(--theme-textarea-background);
+    border: 2px solid var(--theme-textarea-border);
+    color: var(--theme-textarea-text);
+    resize: none;
+    margin: auto;
+    grid-column: 2 / 6;
+    width: 98%;
+    height: 92%;
+  }
+  .toggle_switch_container{
+    grid-column: 6 / 7;
+    position: relative;
+    margin: auto;
+  }
+
+  /* CSS Section 3 - Switch (Checkbox) */
+
+    /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin: 5px;
+    }
+    /* Hide default HTML checkbox */
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+    /* Slider general */
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--theme-slider-off);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    /* Slider unchecked */
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--theme-slider-acent);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    /* Slider checked */
+    input:checked + .slider {
+    background-color: var(--theme-slider-on);
+    }
+    
+    input:focus + .slider {
+    box-shadow: 0 0 1px var(--theme-slider-on);
+    }
+    
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+    
+    .slider.round:before {
+    border-radius: 50%;
+    }
+
+  /* CSS Section 4 - Tabs */
+
+  .tab {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
+    max-width: 1fr;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid var(--theme-tabs-border);
+    background-color: var(--theme-tabs-background);	
+    }
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+    /*max-height: 88px;*/
+    background-color: inherit;
+    color: var(--theme-tabs-text);
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    }
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+    background-color: var(--theme-tabs-hover);
+    }
+    /* Create an active/current tablink class */
+    .tab button.active {
+    background-color: var(--theme-tabs-border);
+    }
+    /* Style the tab content */
+    .tabcontent {
+    background-color: var(--theme-bg-acent);
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid var(--theme-tabs-border);
+    border-top: none;
+    }
+    .tabcontent {
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+    }
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+    }
+
+  /* CSS Section 5 - Buttons */
+
+    /* Container Style */
+  .buttoncontainer {
+    display: grid;
+    row-gap: 15px;
+    column-gap: 15px;
+  }
+    /* Container columns */
+  #btcn1 {
+    grid-template-columns: repeat(1, 1fr); /* Button container has 1 columns */
+  }
+  #btcn2 {
+    grid-template-columns: repeat(2, 1fr); /* Button container has 2 columns */
+  }
+  #btcn4 {
+    grid-template-columns: repeat(4, 1fr); /* Button container has 4 columns */
+  }
+  #btcn6 {
+    grid-template-columns: repeat(6, 1fr); /* Button container has 6 columns */
+  }
+  #btcn8 {
+    grid-template-columns: repeat(8, 1fr); /* Button container has 8 columns */
+  }
+    /* Button style*/
+  .buttoncontainer button{
+  background-color:  var(--theme-button-background); 
+  border: 1px solid  var(--theme-button-border);
+  color:  var(--theme-button-text);
+  height: 30px;
+  max-width: 1fr;
+  }
+  .buttoncontainer button:hover {
+  background-color:  var(--theme-button-hover);
+  border: 1px solid  var(--theme-button-border);
+  }
+  .buttoncontainer button:active{
+  background-color:  var(--theme-button-click);
+  border: 1px solid  var(--theme-button-border);
+  }

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+  <!--  
+  README
+  Kindly cobbled together through hundreds of google searches by Azzurous, and to anyone good with HTML/CSS/JS, I'm sorry for whatever coding horrors my lack of experience may have unknowingly created, but feel free to improve it.
+
+    Clipboard -> buttons copy their text to clipboard
+    Autopast -> buttons append their text textarea
+    Append -> choose between button text being followed by a space " " or a comma and space ", "
+
+  To anyone more oblivous than I was when I started working on this, below's a general overview of this Template 
+    ------
+    in "HTML Section 2 - Tab Banner"
+    To create a new tab, uncomment or create a new "button" like the one below, replacing "tabX" with the next sequential number and a new title where "Line 2 Eg. 1" 
+    <button class="tablinks" onclick="openTab(event, 'tab9')">Line 2 Eg. 1</button>
+    Then create "div" in the page section like the one below and make sure the number on "tabX" matches the button
+    <div id="tab9" class="tabcontent">
+    ------
+    in "HTML Section 3 - Tab Pages"
+    To change amount of columns edit the "id" of "div"s that have the class "buttoncontainer" like the one below
+    <div id="btcn1" class="buttoncontainer">
+    Eg. id="btcn2" -> id="btcn4"  / avalible: btcn1, btcn2, btcn4, btcn6, btcn8
+    To use diffrent numbers of colums go to "CSS Section 5 - Buttons" and figure out the pattern, it's not that hard
+    ------
+    in "HTML Section 3 - Tab Pages" / Subsections 
+    To change or add snippets edit the space between > < when "One" is on the example below, any amount of text should work fine, though it might not fit   
+    <button onClick="reply_click(this.textContent)">One</button> 
+    these should be placed within the "div"s of the "buttoncontainer" class
+    ------
+    The colour scheme can be centrally changed in, "CSS Section 0 - Theme" by replacing the rbg colour codes
+
+  -->
+  <style>
+  /* CSS Section 0 - Theme */
+  :root {
+    --theme-background: #353535;
+    --theme-bg-acent: #2f2f2f; 
+    --theme-text-color: #ffffff;
+
+    --theme-textarea-background: #2f2f2f; 	/* #ffffff */
+    --theme-textarea-border: #3e8e41;		/* #00000000 */
+    --theme-textarea-text: #ffffff;		/* #2196F3 */
+
+    --theme-slider-on: #4CAF50; 			/* #2196F3 */
+    --theme-slider-off: #ccc; 				/* #ccc */
+    --theme-slider-acent: #ffffff; 		/* #ffffff */
+
+    --theme-tabs-background: #4CAF50;		/* #f1f1f1 */
+    --theme-tabs-hover: #006400; 			/* #ddd */
+    --theme-tabs-border: #3e8e41;			/* #ccc */
+    --theme-tabs-text: #ffffff;			/* #000000 */
+
+    --theme-button-background: #4CAF50;	/* #4CAF50 */
+    --theme-button-hover: #3e8e41;			/* #3e8e41 */
+    --theme-button-click: #006400; 		/* #006400 */
+    --theme-button-border: #008000;		/* #008000 */
+    --theme-button-text: white;			/* #ffffff */
+
+  }
+  /* CSS Section 1 - General */
+
+  body {
+    font-family: Helvetica, Sans-Serif;
+    background-color: var(--theme-background);
+    color: var(--theme-text-color);
+    margin: 15px;
+  }
+  button{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+  }
+  button:hover{
+    overflow: visible; 
+    white-space: normal;
+  }
+
+  /* CSS Section 2 - Top Banner */
+
+  .top_section{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows:100px;
+    grid-auto-flow: column;
+    margin-bottom: 15px;
+  }
+  .main_title{
+    grid-column: 1 / 2;
+    text-align: center;
+    margin: auto; 
+  }
+  #outputArea {
+    font-family: Helvetica, Sans-Serif;
+    background-color: var(--theme-textarea-background);
+    border: 2px solid var(--theme-textarea-border);
+    color: var(--theme-textarea-text);
+    resize: none;
+    margin: auto;
+    grid-column: 2 / 6;
+    width: 98%;
+    height: 92%;
+  }
+  .toggle_switch_container{
+    grid-column: 6 / 7;
+    position: relative;
+    margin: auto;
+  }
+
+  /* CSS Section 3 - Switch (Checkbox) */
+
+    /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin: 5px;
+    }
+    /* Hide default HTML checkbox */
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+    /* Slider general */
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--theme-slider-off);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    /* Slider unchecked */
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--theme-slider-acent);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    /* Slider checked */
+    input:checked + .slider {
+    background-color: var(--theme-slider-on);
+    }
+    
+    input:focus + .slider {
+    box-shadow: 0 0 1px var(--theme-slider-on);
+    }
+    
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+    
+    .slider.round:before {
+    border-radius: 50%;
+    }
+
+  /* CSS Section 4 - Tabs */
+
+  .tab {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
+    max-width: 1fr;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid var(--theme-tabs-border);
+    background-color: var(--theme-tabs-background);	
+    }
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+    /*max-height: 88px;*/
+    background-color: inherit;
+    color: var(--theme-tabs-text);
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    }
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+    background-color: var(--theme-tabs-hover);
+    }
+    /* Create an active/current tablink class */
+    .tab button.active {
+    background-color: var(--theme-tabs-border);
+    }
+    /* Style the tab content */
+    .tabcontent {
+    background-color: var(--theme-bg-acent);
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid var(--theme-tabs-border);
+    border-top: none;
+    }
+    .tabcontent {
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+    }
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+    }
+
+  /* CSS Section 5 - Buttons */
+
+    /* Container Style */
+  .buttoncontainer {
+    display: grid;
+    row-gap: 15px;
+    column-gap: 15px;
+  }
+    /* Container columns */
+  #btcn1 {
+    grid-template-columns: repeat(1, 1fr); /* Button container has 1 columns */
+  }
+  #btcn2 {
+    grid-template-columns: repeat(2, 1fr); /* Button container has 2 columns */
+  }
+  #btcn4 {
+    grid-template-columns: repeat(4, 1fr); /* Button container has 4 columns */
+  }
+  #btcn6 {
+    grid-template-columns: repeat(6, 1fr); /* Button container has 6 columns */
+  }
+  #btcn8 {
+    grid-template-columns: repeat(8, 1fr); /* Button container has 8 columns */
+  }
+    /* Button style*/
+  .buttoncontainer button{
+  background-color:  var(--theme-button-background); 
+  border: 1px solid  var(--theme-button-border);
+  color:  var(--theme-button-text);
+  height: 30px;
+  max-width: 1fr;
+  }
+  .buttoncontainer button:hover {
+  background-color:  var(--theme-button-hover);
+  border: 1px solid  var(--theme-button-border);
+  }
+  .buttoncontainer button:active{
+  background-color:  var(--theme-button-click);
+  border: 1px solid  var(--theme-button-border);
+  }
+  </style>
+  </head>
+  <body>
+  <!-- HTML Section 1 - Top Banner - Start -->
+  <div class="top_section">
+    <!-- Misc -->
+    <h1 class="main_title">Snippet Selector</h1>
+    <textarea id="outputArea"></textarea>
+
+    <!-- Switchs -->
+    <div class="toggle_switch_container">
+
+      <!-- Autopaste switch -->
+      <label class="switch">
+        <input type="checkbox" id="s1" >
+        <span class="slider"></span>
+      </label>
+      <p style="display: inline; position: relative; top:4px;"> Clipboard</p>
+      
+      <!-- Autopaste switch --> <br>
+      <label class="switch">
+        <input type="checkbox" id="s2" checked>
+        <span class="slider"></span>
+      </label>
+      <p style="display: inline; position: relative; top:4px;"> Autopaste</p>
+      
+      <!-- Append switch --> <br>
+      <label class="switch">
+        <input type="checkbox" id="s3" checked>
+        <span class="slider"></span>
+      </label>
+      <p style="display: inline; position: relative; top:4px;"> Append ", "</p> 
+    </div>
+  </div>
+
+  <!-- HTML Section 2 - Tab Banner - Start -->
+  <div class="tab">
+    <!-- Tabs Line 1 -->
+    <button class="tablinks" onclick="openTab(event, 'tab1')" id="defaultOpen">Various Tags</button>
+    <button class="tablinks" onclick="openTab(event, 'tab2')">Templates</button>
+    <button class="tablinks" onclick="openTab(event, 'tab3')">Line 1 Eg. 3</button>
+    <button class="tablinks" onclick="openTab(event, 'tab4')">Line 1 Eg. 4</button>
+    <button class="tablinks" onclick="openTab(event, 'tab5')">Line 1 Eg. 5</button>
+    <!--
+    <button class="tablinks" onclick="openTab(event, 'tab6')">Line 1 Eg. 6</button>
+    <button class="tablinks" onclick="openTab(event, 'tab7')">Line 1 Eg. 7</button>
+    <button class="tablinks" onclick="openTab(event, 'tab8')">Line 1 Eg. 8</button>
+    
+    <button class="tablinks" onclick="openTab(event, 'tab9')">Line 2 Eg. 1</button>
+    <button class="tablinks" onclick="openTab(event, 'tab10')">Line 2 Eg. 2</button>
+    <button class="tablinks" onclick="openTab(event, 'tab11')">Line 2 Eg. 3</button>
+    <button class="tablinks" onclick="openTab(event, 'tab12')">Line 2 Eg. 4</button>
+    <button class="tablinks" onclick="openTab(event, 'tab13')">Line 2 Eg. 5</button>
+    <button class="tablinks" onclick="openTab(event, 'tab14')">Line 2 Eg. 6</button>
+    <button class="tablinks" onclick="openTab(event, 'tab15')">Line 2 Eg. 7</button>
+    <button class="tablinks" onclick="openTab(event, 'tab16')">Line 2 Eg. 8</button>
+
+    <button class="tablinks" onclick="openTab(event, 'tab17')">Line etc... Eg. etc..</button>
+    -->
+  </div>
+  
+  <!-- HTML Section 3 - Tab Pages - Start -->
+  
+  <!-- -- -- -- PAGE 1 (Various Tags) Cols=6 / Cols=4  -- -- -- -->
+  <div id="tab1" class="tabcontent">
+    <p>Text / spacer / Description.</p>
+    <hr>
+
+    <!-- button group START -->
+      <div id="btcn6" class="buttoncontainer">
+        <button onClick="reply_click(this.textContent)">LongExampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</button>
+        <button onClick="reply_click(this.textContent)">Special_Symbols ~!@#$%^&*()[]{};:'"<>?/\|`</button>
+        <button onClick="reply_click(this.textContent)">One, Two, Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        <button onClick="reply_click(this.textContent)">Five</button>
+        <button onClick="reply_click(this.textContent)">Six</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        <button onClick="reply_click(this.textContent)">Five</button>
+        <button onClick="reply_click(this.textContent)">Six</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        <button onClick="reply_click(this.textContent)">Five</button>
+        <button onClick="reply_click(this.textContent)">Six</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        <button onClick="reply_click(this.textContent)">Five</button>
+        <button onClick="reply_click(this.textContent)">Six</button>
+        
+      </div> 
+    <!-- button group END-->
+    <p>Text / spacer / Description.</p>
+    <hr>
+    <!-- button group START -->
+      <div id="btcn4" class="buttoncontainer">
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+        
+        <button onClick="reply_click(this.textContent)">One</button>
+        <button onClick="reply_click(this.textContent)">Two</button>
+        <button onClick="reply_click(this.textContent)">Three</button>
+        <button onClick="reply_click(this.textContent)">Four</button>
+      </div>
+    <!-- button group END-->
+  </div>
+  <!-- -- -- -- PAGE 2 (Templates) Cols=1 -- -- -- -->
+  <div id="tab2" class="tabcontent">
+    <p>Text / spacer / Description.</p>
+    <hr>
+    
+    <!-- button group START -->
+    <div id="btcn1" class="buttoncontainer">
+      <button onClick="reply_click(this.textContent)">hello world, one, two, three, four, five, six, seven, eight</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+      <button onClick="reply_click(this.textContent)">Three</button>
+      <button onClick="reply_click(this.textContent)">Four</button>
+      <button onClick="reply_click(this.textContent)">Five</button>
+      <button onClick="reply_click(this.textContent)">Six</button>
+      <button onClick="reply_click(this.textContent)">Seven</button>
+      <button onClick="reply_click(this.textContent)">Eight</button>
+      <button onClick="reply_click(this.textContent)">Nine</button>
+      <button onClick="reply_click(this.textContent)">Ten</button>
+      <button onClick="reply_click(this.textContent)">Etc...</button> 
+    </div>
+    <!-- button group END -->
+  </div>
+  <!-- -- -- -- PAGE 3 (Line 1 Eg. 3) Cols=1 -- -- -- -->
+  <div id="tab3" class="tabcontent">
+    <p>Text / spacer / Description.</p>
+    <hr>
+    <!-- button group START -->
+    <div id="btcn1" class="buttoncontainer">
+      <button onClick="reply_click(this.textContent)">One</button> 
+      <button onClick="reply_click(this.textContent)">Etc...</button> 
+    </div> 
+    <!-- button group END -->
+  </div>
+  <!-- -- -- -- PAGE 4 (Line 1 Eg. 4) Cols=6 -- -- -- -->
+  <div id="tab4" class="tabcontent">
+    <p>Text / spacer / Description.</p>
+    <hr>
+    <!-- button group START -->
+    <div id="btcn2" class="buttoncontainer">
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+    </div>
+  </div>
+  <!-- -- -- -- PAGE 5 (Line 1 Eg. 5) Cols=8 -- -- -- -->
+  <div id="tab5" class="tabcontent">
+    <p>Text / spacer / Description.</p>
+    <hr>
+    <!-- button group START -->
+    <div id="btcn8" class="buttoncontainer">
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+      <button onClick="reply_click(this.textContent)">Three</button>
+      <button onClick="reply_click(this.textContent)">Four</button>
+      <button onClick="reply_click(this.textContent)">Five</button>
+      <button onClick="reply_click(this.textContent)">Six</button>
+      <button onClick="reply_click(this.textContent)">seven</button>
+      <button onClick="reply_click(this.textContent)">Eight</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+      <button onClick="reply_click(this.textContent)">Three</button>
+      <button onClick="reply_click(this.textContent)">Four</button>
+      <button onClick="reply_click(this.textContent)">Five</button>
+      <button onClick="reply_click(this.textContent)">Six</button>
+      <button onClick="reply_click(this.textContent)">seven</button>
+      <button onClick="reply_click(this.textContent)">Eight</button>
+
+      <button onClick="reply_click(this.textContent)">One</button>
+      <button onClick="reply_click(this.textContent)">Two</button>
+      <button onClick="reply_click(this.textContent)">Three</button>
+      <button onClick="reply_click(this.textContent)">Four</button>
+      <button onClick="reply_click(this.textContent)">Five</button>
+      <button onClick="reply_click(this.textContent)">Six</button>
+      <button onClick="reply_click(this.textContent)">seven</button>
+      <button onClick="reply_click(this.textContent)">Eight</button>
+    </div>
+     <!-- button group END -->
+  </div>
+    
+    
+ 
+  <script>
+  // Text area prep
+    const textarea = document.getElementById('outputArea');
+  
+  // Buttons & Switches
+    function reply_click(clicked_id){
+
+      // Variables 
+      var text = clicked_id;
+      var clip= document.getElementById("s1");
+      var auto= document.getElementById("s2");
+      var apnd= document.getElementById("s3");
+      var apndtext= " ";
+
+      // Switch variations  
+      if(apnd.checked == true){// Append ", "
+        apndtext=", ";
+      }else{
+        apndtext= " ";
+      }
+      if(clip.checked == true){// Clipboard 
+        navigator.clipboard.writeText(text+apndtext);
+      }
+      if(auto.checked == true){// Autopaste 
+        textarea.value += (text+apndtext);
+      }
+    
+    }
+
+  // Tabs
+    function openTab(evt, tabNumber) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabNumber).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    // defaultOpen
+    document.getElementById("defaultOpen").click();
+
+  </script>
+  </body>
+</html>
+
